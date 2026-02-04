@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-[#0f1117]">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cinema - Administration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8b5cf6',
+                        secondary: '#161922',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer components {
+            .sidebar-link {
+                @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-400 hover:bg-white/5 hover:text-white;
+            }
+            .sidebar-link.active {
+                @apply bg-primary/10 text-primary font-semibold;
+            }
+            .btn-violet {
+                @apply bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-full antialiased text-slate-300">
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar -->
+        <aside class="w-64 bg-[#0a0c10] border-r border-white/5 flex flex-col p-6 overflow-y-auto">
+            <div class="flex items-center gap-3 mb-10 px-2">
+                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z">
+                        </path>
+                    </svg>
+                </div>
+                <span class="text-white font-bold text-lg">My Cinema</span>
+            </div>
+
+            <nav class="flex-1 space-y-2">
+                <button class="w-full sidebar-link active" data-page="dashboard">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                        </path>
+                    </svg>
+                    Dashboard
+                </button>
+                <button class="w-full sidebar-link" data-page="movies">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z">
+                        </path>
+                    </svg>
+                    Films
+                </button>
+                <button class="w-full sidebar-link" data-page="rooms">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                        </path>
+                    </svg>
+                    Salles
+                </button>
+                <button class="w-full sidebar-link" data-page="screenings">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    Séances
+                </button>
+            </nav>
+
+            <div class="mt-auto pt-6 border-t border-white/5">
+                <div class="flex items-center gap-3 bg-secondary rounded-xl p-3">
+                    <div
+                        class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xs">
+                        Y</div>
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-bold text-white truncate">Gérant</p>
+                        <p class="text-[10px] text-slate-500 uppercase">Admin</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <main class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="h-20 bg-[#0f1117] border-b border-white/5 px-8 flex items-center justify-between shadow-sm">
+                <div>
+                    <h2 id="view-title" class="text-xl font-bold text-white">Dashboard</h2>
+                </div>
+                <div>
+                    <button id="main-action-btn" class="hidden btn-violet">
+                        <span id="action-text">Ajouter</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-8 space-y-6">
+                <!-- Filters (Hidden by default) -->
+                <div id="filter-section"
+                    class="hidden flex flex-wrap gap-4 p-4 bg-secondary rounded-xl border border-white/5">
+                    <input type="text" placeholder="Rechercher..."
+                        class="bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary/50 flex-1 min-w-[200px]">
+                    <select
+                        class="bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-sm text-slate-400 focus:outline-none focus:border-primary/50">
+                        <option value="">Tous les genres</option>
+                    </select>
+                </div>
+
+                <!-- Content Grid -->
+                <div id="main-content-display" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Default state -->
+                    <div class="col-span-full h-80 flex flex-col items-center justify-center text-center opacity-50">
+                        <div
+                            class="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin mb-4">
+                        </div>
+                        <p>Chargement des données...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination (Hidden by default) -->
+                <div id="pagination-section"
+                    class="hidden flex items-center justify-between pt-6 border-t border-white/5">
+                    <span class="text-xs text-slate-500">Page 1 sur 1</span>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-3 py-1 bg-secondary border border-white/10 rounded-lg text-xs hover:bg-white/5 disabled:opacity-30">Précédent</button>
+                        <button
+                            class="px-3 py-1 bg-secondary border border-white/10 rounded-lg text-xs hover:bg-white/5">Suivant</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Simple Modal -->
+    <div id="app-modal" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+        <div class="bg-secondary border border-white/10 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+            <div class="flex justify-between items-center p-5 border-b border-white/5">
+                <h3 class="font-bold text-white text-lg" id="modal-label">Nouveau</h3>
+                <button id="close-modal-btn"
+                    class="text-slate-400 hover:text-white text-2xl font-light">&times;</button>
+            </div>
+            <div class="p-6">
+                <form id="app-form">
+                    <!-- PHP logic will inject fields -->
+                    <p class="text-center text-slate-500 py-10">Formulaire en attente de données.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
