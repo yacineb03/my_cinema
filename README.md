@@ -1,52 +1,58 @@
 # Documentation du Projet MyCinema
 
-Ce document retrace les étapes de développement, les choix techniques et les solutions apportées aux problèmes rencontrés lors de la mise en place de l'environnement local et du développement initial.
+Ce document retrace les étapes de développement, l'architecture technique mise en place et l'état d'avancement du projet.
 
-## État actuel du projet
+## État actuel du projet (v1.0 MVC)
 
-Le projet dispose actuellement d'une architecture fonctionnelle reliant le Frontend au Backend, avec une base de données opérationnelle.
-- **Backend** : API PHP structurée (MVC léger) capable de fournir la liste des films.
-- **Frontend** : Interface HTML/CSS/JS capable de récupérer et afficher les données dynamiquement.
-- **Base de données** : MySQL, peuplée avec des données de test.
+Le projet respecte désormais une architecture **MVC (Modèle - Vue - Contrôleur)** stricte, conformément aux exigences du sujet.
+- **Backend** : API PHP structurée avec Routeur, Contrôleurs et Repositories.
+- **Frontend** : Interface HTML/CSS/JS dynamique.
+- **Base de données** : MySQL via PDO.
 
-## Historique des étapes techniques
+## Architecture Technique
 
-### 1. Installation de l'environnement serveur
-Nous avons rencontré des difficultés avec l'outil initialement prévu (Laragon) en raison de problèmes de version et de démarrage du service MySQL.
-**Solution retenue** : Installation de MAMP (Windows).
-- Serveur Web : Apache (Port 8888)
-- Base de données : MySQL (Port 8889)
-- Dossier racine du serveur : C:\MAMP\htdocs
+L'application est découpée en couches distinctes pour respecter la séparation des responsabilités :
 
-### 2. Configuration de la Base de Données
-Le serveur MAMP étant une nouvelle installation, la base de données était initialement vide.
-**Actions effectuées** :
-1. Création de la base de données `my_cinema` via phpMyAdmin.
-2. Importation du fichier `script.sql` contenant la structure des tables (movies, rooms, screenings) et les jeux de données initiaux (Batman, Inception, etc.).
+### 1. Point d'entrée Unique (Routeur)
+- **Fichier** : `backend/index.php`
+- **Rôle** : Il intercepte toutes les requêtes, initialise la connexion BDD, et instancie le bon Contrôleur en fonction du paramètre `?action=...`.
+- **Note** : Il ne contient plus aucune logique métier.
 
-### 3. Développement Backend (PHP)
-Mise en place d'un point d'entrée unique (`index.php`) qui agit comme routeur.
-- Création du fichier de configuration `database.php` pour centraliser la connexion PDO.
-- Ajustement des identifiants de connexion pour MAMP (User: root, Password: vide).
-- Implémentation des Repositories (MovieRepository) pour séparer la logique SQL du reste du code.
-- Création de l'endpoint API `?action=list_movie` qui retourne les données au format JSON.
+### 2. Les Contrôleurs (Controllers)
+- **Dossier** : `backend/controllers/`
+- **Liste** : `MovieController`, `RoomController`.
+- **Rôle** : Ils recoivent la demande du routeur, appellent le Repository pour obtenir les données, et renvoient la réponse formatée en JSON.
 
-### 4. Liaison Frontend - Backend
-Le défi principal a été de faire communiquer l'interface utilisateur avec le serveur.
+### 3. Les Repositories (Accès Données)
+- **Dossier** : `backend/repositories/`
+- **Liste** : `MovieRepository`, `RoomRepository`.
+- **Rôle** : Ils contiennent toutes les requêtes SQL (PDO). Ils transforment les résultats SQL en objets PHP (Models).
 
-**Problèmes rencontrés et résolus :**
-- **Chemin d'accès** : Les fichiers n'étaient pas lus par le serveur car stockés initialement dans OneDrive.
-  -> Solution : Déplacement intégral du projet vers le dossier racine du serveur (`C:\MAMP\htdocs\MyCinema`).
-- **Cible HTML manquante** : Le script JS tentait d'injecter les films dans un élément inexistant.
-  -> Solution : Ajout de l'ID `main-content` dans le fichier `index.html`.
-- **Cache navigateur** : Les modifications n'apparaissaient pas immédiatement.
-  -> Solution : Utilisation de la navigation privée et rafraîchissement forcé.
+### 4. Les Modèles (Entités)
+- **Dossier** : `backend/models/`
+- **Liste** : `Movie`, `Room`.
+- **Rôle** : Classes simples représentant la structure des données (Dureté, Titre, Capacité...).
 
-### 5. Implémentation JavaScript
-Le fichier `app.js` a été configuré pour effectuer des appels asynchrones (`fetch`) vers l'API PHP.
-La fonction `loadMovies()` récupère désormais le JSON, génère le HTML correspondant (cartes de films) et l'insère dynamiquement dans la page sans rechargement.
+## Fonctionnalités Implémentées
 
-## Prochaines étapes
-- Finalisation de la barre de recherche (connexion à l'endpoint `search_movie`).
-- Mise en place de la pagination pour limiter le nombre de résultats.
-- Développement des fonctionnalités CRUD (Ajout/Suppression de films).
+### Backend API
+| Action | Contrôleur | Description |
+|--------|------------|-------------|
+| `list_movie` | `MovieController` | Renvoie la liste complète des films. |
+| `search_movie` | `MovieController` | Renvoie les films correspondant à une recherche (`?title=...`). |
+| `list_rooms` | `RoomController` | Renvoie la liste des salles disponibles. |
+
+### Frontend
+- Chargement dynamique des films via `fetch()`.
+- Affichage sous forme de grille responsive (TailwindCSS).
+- Gestion des erreurs de connexion API.
+
+## Installation et Lancement
+
+1. **Serveur** : Le projet doit être placé dans le dossier `htdocs` de MAMP (ou équivalent).
+2. **Base de données** :
+   - Créer une base `my_cinema`.
+   - Importer le fichier `script.sql`.
+   - Configurer `backend/config/database.php` (User: root, Pass: vide ou root).
+3. **Accès** :
+   - URL : `http://localhost:8888/MyCinema/frontend/index.html`

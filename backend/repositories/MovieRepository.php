@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/../models/Movie.php';
+
 class MovieRepository
 {
     private $pdo;
@@ -17,7 +20,8 @@ class MovieRepository
         return $stmt->fetchAll(PDO::FETCH_CLASS, "Movie");
     }
 
-    public function search($title) {
+    public function search($title)
+    {
         $sql = "SELECT * FROM movies WHERE title LIKE :title";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['title' => '%' . $title . '%']);

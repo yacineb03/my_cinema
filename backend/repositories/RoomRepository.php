@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/../models/Room.php';
+
 class RoomRepository
 {
     private $pdo;
