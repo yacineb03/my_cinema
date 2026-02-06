@@ -113,23 +113,45 @@
                 </div>
             </header>
 
-            <div class="flex-1 overflow-y-auto p-8 space-y-6">
-                <div id="filter-section"
-                    class="hidden flex flex-wrap gap-4 p-4 bg-secondary rounded-xl border border-white/5">
-                    <input type="text" placeholder="Rechercher..."
-                        class="bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary/50 flex-1 min-w-[200px]">
-                    <select
-                        class="bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-sm text-slate-400 focus:outline-none focus:border-primary/50">
-                        <option value="">Tous les genres</option>
-                    </select>
+            <div class="flex-1 overflow-y-auto p-8 space-y-8 bg-[#0a0c10]/30">
+                <!-- Dashboard Statistics (Visible only on Dashboard) -->
+                <div id="stats-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-secondary border border-white/5 p-6 rounded-2xl">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Films</p>
+                        <h3 class="text-3xl font-bold text-white" id="stat-movies">-</h3>
+                    </div>
+                    <div class="bg-secondary border border-white/5 p-6 rounded-2xl">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Salles</p>
+                        <h3 class="text-3xl font-bold text-white" id="stat-rooms">-</h3>
+                    </div>
+                    <div class="bg-secondary border border-white/5 p-6 rounded-2xl">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Prochaines Séances
+                        </p>
+                        <h3 class="text-3xl font-bold text-white" id="stat-screenings">-</h3>
+                    </div>
                 </div>
 
-                <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="col-span-full h-80 flex flex-col items-center justify-center text-center opacity-50">
-                        <div
-                            class="w-10 h-10 border-2 border-primary/20 border-t-primary rounded-full animate-spin mb-4">
+                <!-- Main Wrapper for Content -->
+                <div class="space-y-6">
+                    <div id="filter-section"
+                        class="hidden flex flex-wrap gap-4 p-5 bg-secondary/50 backdrop-blur-md rounded-2xl border border-white/5">
+                        <div class="flex-1 relative">
+                            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <input type="text" id="search-input" placeholder="Rechercher un film par titre..."
+                                class="w-full bg-[#0f1117] border border-white/5 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-all">
                         </div>
-                        <p>Chargement des données...</p>
+                        <select
+                            class="bg-[#0f1117] border border-white/5 rounded-xl px-4 py-3 text-sm text-slate-400 focus:outline-none focus:border-primary/50 min-w-[150px]">
+                            <option value="">Tous les genres</option>
+                        </select>
+                    </div>
+
+                    <div id="main-content" class="min-h-[400px]">
+                        <!-- Content will be injected here -->
                     </div>
                 </div>
 
@@ -138,9 +160,9 @@
                     <span class="text-xs text-slate-500">Page 1 sur 1</span>
                     <div class="flex gap-2">
                         <button
-                            class="px-3 py-1 bg-secondary border border-white/10 rounded-lg text-xs hover:bg-white/5 disabled:opacity-30">Précédent</button>
+                            class="px-4 py-2 bg-secondary border border-white/5 rounded-xl text-xs font-bold hover:bg-white/5 disabled:opacity-20 transition-all">Précédent</button>
                         <button
-                            class="px-3 py-1 bg-secondary border border-white/10 rounded-lg text-xs hover:bg-white/5">Suivant</button>
+                            class="px-4 py-2 bg-secondary border border-white/5 rounded-xl text-xs font-bold hover:bg-white/5 transition-all">Suivant</button>
                     </div>
                 </div>
             </div>
@@ -155,8 +177,83 @@
                     class="text-slate-400 hover:text-white text-2xl font-light">&times;</button>
             </div>
             <div class="p-6">
-                <form id="app-form">
-                    <p class="text-center text-slate-500 py-10">Formulaire en attente de données.</p>
+                <!-- Movie Form -->
+                <form id="movie-form" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Titre du film</label>
+                        <input type="text" id="movie-title" name="title" required
+                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Description</label>
+                        <textarea id="movie-desc" name="description" rows="3"
+                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50"></textarea>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-1">Durée (min)</label>
+                            <input type="number" id="movie-duration" name="duration" required
+                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-1">Date de sortie</label>
+                            <input type="date" id="movie-date" name="release_date" required
+                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full btn-violet justify-center mt-4">
+                        <span>Enregistrer le film</span>
+                    </button>
+                </form>
+
+                <!-- Room Form -->
+                <form id="room-form" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Nom de la salle</label>
+                        <input type="text" id="room-name" name="name" required
+                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-1">Capacité</label>
+                            <input type="number" id="room-capacity" name="capacity" required
+                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-400 mb-1">Type (IMAX, 3D...)</label>
+                            <input type="text" id="room-type" name="type" required
+                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full btn-violet justify-center mt-4">
+                        <span>Enregistrer la salle</span>
+                    </button>
+                </form>
+
+                <!-- Screening Form -->
+                <form id="screening-form" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Sélectionner un film</label>
+                        <select id="screening-movie" name="movie_id" required
+                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                            <option value="">Chargement des films...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Sélectionner une salle</label>
+                        <select id="screening-room" name="room_id" required
+                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                            <option value="">Chargement des salles...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Date et Heure</label>
+                        <input type="datetime-local" id="screening-date" name="date_time" required
+                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                    </div>
+                    <button type="submit" class="w-full btn-violet justify-center mt-4">
+                        <span>Enregistrer la séance</span>
+                    </button>
                 </form>
             </div>
         </div>

@@ -13,18 +13,26 @@ class MovieRepository
 
     public function getAll()
     {
-
-
-        $sql = "SELECT * FROM movies";
-        $stmt = $this->pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, "Movie");
+        $stmt = $this->pdo->query("SELECT * FROM movies ORDER BY id DESC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function search($title)
+    public function searchByTitle($title)
     {
-        $sql = "SELECT * FROM movies WHERE title LIKE :title";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['title' => '%' . $title . '%']);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, "Movie");
+        $stmt = $this->pdo->prepare("SELECT * FROM movies WHERE title LIKE ?");
+        $stmt->execute(['%' . $title . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($data)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO movies (title, description, duration, release_date) VALUES (?, ?, ?, ?)");
+        return $stmt->execute([$data['title'], $data['description'], $data['duration'], $data['release_date']]);
+    }
+
+    public function delete($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM movies WHERE id = ?");
+        return $stmt->execute([$id]);
     }
 }

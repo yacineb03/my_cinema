@@ -1,58 +1,72 @@
-# Documentation du Projet MyCinema
+# My Cinema - Système de Gestion Cinématographique
 
-Ce document retrace les étapes de développement, l'architecture technique mise en place et l'état d'avancement du projet.
+Une application web moderne et intuitive pour la gestion complète d'un complexe cinématographique. Ce projet permet d'administrer les films, les salles et la programmation des séances via une interface élégante et performante.
 
-## État actuel du projet (v1.0 MVC)
+## Fonctionnalités
 
-Le projet respecte désormais une architecture **MVC (Modèle - Vue - Contrôleur)** stricte, conformément aux exigences du sujet.
-- **Backend** : API PHP structurée avec Routeur, Contrôleurs et Repositories.
-- **Frontend** : Interface HTML/CSS/JS dynamique.
-- **Base de données** : MySQL via PDO.
+### Tableau de Bord (Dashboard)
+- Visualisation en temps réel des statistiques clés (Total Films, Salles, Séances).
+- Interface "Hero" immersive avec design premium.
+- Système d'état du complexe en direct.
 
-## Architecture Technique
+### Gestion des Films
+- Affichage des films sous forme de cartes élégantes avec effets de survol.
+- Recherche dynamique par titre.
+- Ajout de nouveaux films (Titre, Description, Durée, Date de sortie).
+- Suppression de films existants.
 
-L'application est découpée en couches distinctes pour respecter la séparation des responsabilités :
+### Gestion des Salles
+- Visualisation des salles (Nom, Capacité, Type).
+- Création de nouvelles salles personnalisées.
+- Suppression de salles.
 
-### 1. Point d'entrée Unique (Routeur)
-- **Fichier** : `backend/index.php`
-- **Rôle** : Il intercepte toutes les requêtes, initialise la connexion BDD, et instancie le bon Contrôleur en fonction du paramètre `?action=...`.
-- **Note** : Il ne contient plus aucune logique métier.
+### Planning des Séances
+- Vue d'ensemble du planning sous forme de table moderne.
+- Programmation de séances en liant dynamiquement Films et Salles.
+- Sélection intelligente via des menus déroulants alimentés par la base de données.
 
-### 2. Les Contrôleurs (Controllers)
-- **Dossier** : `backend/controllers/`
-- **Liste** : `MovieController`, `RoomController`.
-- **Rôle** : Ils recoivent la demande du routeur, appellent le Repository pour obtenir les données, et renvoient la réponse formatée en JSON.
-
-### 3. Les Repositories (Accès Données)
-- **Dossier** : `backend/repositories/`
-- **Liste** : `MovieRepository`, `RoomRepository`.
-- **Rôle** : Ils contiennent toutes les requêtes SQL (PDO). Ils transforment les résultats SQL en objets PHP (Models).
-
-### 4. Les Modèles (Entités)
-- **Dossier** : `backend/models/`
-- **Liste** : `Movie`, `Room`.
-- **Rôle** : Classes simples représentant la structure des données (Dureté, Titre, Capacité...).
-
-## Fonctionnalités Implémentées
-
-### Backend API
-| Action | Contrôleur | Description |
-|--------|------------|-------------|
-| `list_movie` | `MovieController` | Renvoie la liste complète des films. |
-| `search_movie` | `MovieController` | Renvoie les films correspondant à une recherche (`?title=...`). |
-| `list_rooms` | `RoomController` | Renvoie la liste des salles disponibles. |
+## Stack Technique
 
 ### Frontend
-- Chargement dynamique des films via `fetch()`.
-- Affichage sous forme de grille responsive (TailwindCSS).
-- Gestion des erreurs de connexion API.
+- **Langages** : HTML5, JavaScript (ES6+).
+- **Styling** : Tailwind CSS (via CDN) pour un design responsive et moderne.
+- **Animations** : Tailwind utility classes & CSS transitions.
 
-## Installation et Lancement
+### Backend
+- **Langage** : PHP 8.x.
+- **Architecture** : MVC (Modèle-Vue-Contrôleur) avec Pattern Repository.
+- **Base de données** : MySQL via PDO pour des requêtes sécurisées.
+- **API** : RESTful JSON API.
 
-1. **Serveur** : Le projet doit être placé dans le dossier `htdocs` de MAMP (ou équivalent).
-2. **Base de données** :
-   - Créer une base `my_cinema`.
-   - Importer le fichier `script.sql`.
-   - Configurer `backend/config/database.php` (User: root, Pass: vide ou root).
-3. **Accès** :
-   - URL : `http://localhost:8888/MyCinema/frontend/index.html`
+## Installation
+
+1. **Serveur Local** : Utiliser un environnement comme MAMP, WAMP ou XAMPP.
+2. **Base de Données** :
+   - Importer le fichier `script.sql` fourni à la racine du projet dans phpMyAdmin.
+   - Le nom de la base de données doit être `my_cinema`.
+3. **Configuration** :
+   - Vérifier les accès dans `backend/config/database.php` (hôte, port, utilisateur, mot de passe).
+   - Par défaut configuré pour MAMP (Port 8889, User: root, Pass: root).
+4. **Lancement** : 
+   - Placer le dossier dans `htdocs` ou le répertoire équivalent.
+   - Accéder à `frontend/index.html` via votre navigateur.
+
+## Structure du Projet
+
+```text
+MyCinema/
+├── backend/
+│   ├── config/      # Connexion BDD
+│   ├── controllers/ # Logique métier
+│   ├── models/      # Entités de données
+│   ├── repositories/# Accès BDD (Requêtes SQL)
+│   └── index.php    # Routeur API
+├── frontend/
+│   ├── css/         # Styles personnalisés
+│   ├── js/          # Logique applicative (app.js)
+│   └── index.html   # Interface principale
+└── script.sql       # Script de création BDD
+```
+
+---
+*Projet réalisé par Yacine.*

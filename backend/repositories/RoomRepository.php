@@ -13,8 +13,19 @@ class RoomRepository
 
     public function getAll()
     {
-        $sql = "SELECT * FROM rooms";
-        $stmt = $this->pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_CLASS, "Room");
+        $stmt = $this->pdo->query("SELECT * FROM rooms");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function create($data)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO rooms (name, capacity, type) VALUES (?, ?, ?)");
+        return $stmt->execute([$data['name'], $data['capacity'], $data['type']]);
+    }
+
+    public function delete($id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM rooms WHERE id = ?");
+        return $stmt->execute([$id]);
     }
 }

@@ -1,8 +1,5 @@
 <?php
 
-
-require_once __DIR__ . '/../repositories/MovieRepository.php';
-
 class MovieController
 {
     private $movieRepository;
@@ -22,8 +19,30 @@ class MovieController
     public function search()
     {
         $title = $_GET['title'] ?? '';
-        $movies = $this->movieRepository->search($title);
+        $movies = $this->movieRepository->searchByTitle($title);
         header('Content-Type: application/json');
         echo json_encode($movies);
+    }
+
+    public function add()
+    {
+        $data = [
+            'title' => $_GET['title'] ?? '',
+            'description' => $_GET['description'] ?? '',
+            'duration' => $_GET['duration'] ?? 0,
+            'release_date' => $_GET['release_date'] ?? ''
+        ];
+
+        $this->movieRepository->create($data);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true]);
+    }
+
+    public function delete()
+    {
+        $id = $_GET['id'] ?? 0;
+        $this->movieRepository->delete($id);
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true]);
     }
 }
