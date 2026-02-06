@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../models/Movie.php';
+
+
 
 class MovieRepository
 {
@@ -34,5 +35,12 @@ class MovieRepository
     {
         $stmt = $this->pdo->prepare("DELETE FROM movies WHERE id = ?");
         return $stmt->execute([$id]);
+    }
+
+    public function getById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM movies WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

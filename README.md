@@ -1,72 +1,37 @@
-# My Cinema - Système de Gestion Cinématographique
+# MyCinema
 
-Une application web moderne et intuitive pour la gestion complète d'un complexe cinématographique. Ce projet permet d'administrer les films, les salles et la programmation des séances via une interface élégante et performante.
+Application de gestion de complexe cinematographique. Permet aux administrateurs de gerer les films, les salles et de planifier les seances intelligemment.
 
-## Fonctionnalités
-
-### Tableau de Bord (Dashboard)
-- Visualisation en temps réel des statistiques clés (Total Films, Salles, Séances).
-- Interface "Hero" immersive avec design premium.
-- Système d'état du complexe en direct.
+## Fonctionnalites
 
 ### Gestion des Films
-- Affichage des films sous forme de cartes élégantes avec effets de survol.
-- Recherche dynamique par titre.
-- Ajout de nouveaux films (Titre, Description, Durée, Date de sortie).
-- Suppression de films existants.
+- **Ajouter un film** : Titre, duree, description, date de sortie.
+- **Lister les films** : Vue grille moderne avec infos cles.
+- **Rechercher** : Recherche dynamique par titre.
+- **Supprimer** : Retrait d'un film de la base.
 
 ### Gestion des Salles
-- Visualisation des salles (Nom, Capacité, Type).
-- Création de nouvelles salles personnalisées.
-- Suppression de salles.
+- **Ajouter une salle** : Nom, capacite, type (VIP, Standard, 4DX, etc.).
+- **Lister les salles** : Vue des capacites et equipements.
+- **Supprimer** : Gestion du parc de salles.
 
-### Planning des Séances
-- Vue d'ensemble du planning sous forme de table moderne.
-- Programmation de séances en liant dynamiquement Films et Salles.
-- Sélection intelligente via des menus déroulants alimentés par la base de données.
+### Planification des Seances
+- **Programmer une seance** : Selection du film et de la salle.
+- **Anti-Conflit** : Le systeme empeche automatiquement de creer une seance si la salle est deja occupee par un autre film sur le meme creneau horaire (en prenant en compte la duree du film).
+- **Dashboard** : Vue d'ensemble avec statistiques en temps reel (nombre de films, salles, seances).
 
 ## Stack Technique
 
-### Frontend
-- **Langages** : HTML5, JavaScript (ES6+).
-- **Styling** : Tailwind CSS (via CDN) pour un design responsive et moderne.
-- **Animations** : Tailwind utility classes & CSS transitions.
-
-### Backend
-- **Langage** : PHP 8.x.
-- **Architecture** : MVC (Modèle-Vue-Contrôleur) avec Pattern Repository.
-- **Base de données** : MySQL via PDO pour des requêtes sécurisées.
-- **API** : RESTful JSON API.
+- **Backend** : PHP 8 (Architecture MVC sans framework), PDO MySQL.
+- **Frontend** : JavaScript (Vanilla + Fetch API), HTML5, CSS3.
+- **Base de donnees** : MySQL.
 
 ## Installation
 
-1. **Serveur Local** : Utiliser un environnement comme MAMP, WAMP ou XAMPP.
-2. **Base de Données** :
-   - Importer le fichier `script.sql` fourni à la racine du projet dans phpMyAdmin.
-   - Le nom de la base de données doit être `my_cinema`.
-3. **Configuration** :
-   - Vérifier les accès dans `backend/config/database.php` (hôte, port, utilisateur, mot de passe).
-   - Par défaut configuré pour MAMP (Port 8889, User: root, Pass: root).
-4. **Lancement** : 
-   - Placer le dossier dans `htdocs` ou le répertoire équivalent.
-   - Accéder à `frontend/index.html` via votre navigateur.
-
-## Structure du Projet
-
-```text
-MyCinema/
-├── backend/
-│   ├── config/      # Connexion BDD
-│   ├── controllers/ # Logique métier
-│   ├── models/      # Entités de données
-│   ├── repositories/# Accès BDD (Requêtes SQL)
-│   └── index.php    # Routeur API
-├── frontend/
-│   ├── css/         # Styles personnalisés
-│   ├── js/          # Logique applicative (app.js)
-│   └── index.html   # Interface principale
-└── script.sql       # Script de création BDD
-```
+1.  Importer le script SQL `script.sql` dans votre base de donnees locale.
+2.  Configurer le fichier `backend/config/database.php` avec vos acces (Host, User, Password).
+3.  Lancer un serveur local (MAMP/WAMP/XAMPP) pointant vers le dossier du projet.
 
 ---
-*Projet réalisé par Yacine.*
+**Auteur** : Yacine
+**Projet** : Epitech - MyCinema

@@ -233,6 +233,9 @@ async function loadDashboardStats() {
         const movies = await moviesRes.json();
         const rooms = await roomsRes.json();
         const screenings = await screeningsRes.json();
+
+
+
         document.getElementById('stat-movies').innerText = movies.length;
         document.getElementById('stat-rooms').innerText = rooms.length;
         document.getElementById('stat-screenings').innerText = screenings.length;
@@ -316,7 +319,7 @@ async function loadScreenings() {
                     <tbody class="divide-y divide-white/5">
         `;
         screenings.forEach(s => {
-            const dateObj = new Date(s.date_time);
+            const dateObj = new Date(s.start_time);
             const date = dateObj.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
             const time = dateObj.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
             tableHTML += `
@@ -389,11 +392,19 @@ document.getElementById('screening-form')?.addEventListener('submit', async (e) 
     const formData = new FormData(e.target);
     const params = new URLSearchParams(formData).toString();
     try {
-        await fetch(`../backend/index.php?action=add_screening&${params}`);
+        const response = await fetch(`../backend/index.php?action=add_screening&${params}`);
+        const data = await response.json();
+
+        if (!data.success) {
+            alert(data.error || 'Erreur lors de l\'ajout');
+            return;
+        }
+
         document.getElementById('app-modal').classList.add('hidden');
         e.target.reset();
         loadScreenings();
     } catch (e) {
-        alert('Erreur ajout séance');
+        alert('Erreur technique');
+        console.error(e);
     }
 });
