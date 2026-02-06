@@ -1,37 +1,44 @@
-# MyCinema
+# MyCinema - Systeme de Gestion de Cinema
 
-Application de gestion de complexe cinematographique. Permet aux administrateurs de gerer les films, les salles et de planifier les seances intelligemment.
+Application web complete de gestion de multiplexe cinematographique. Permet l'administration des films, des salles et la planification des seances.
 
-## Fonctionnalites
+## Fonctionnalites Principales
+
+### Dashboard (Vue d'Ensemble)
+- Statistiques en temps reel (Films actifs, Capacite, Seances hebdo).
+- Indicateur d'etat du systeme.
+- Interface moderne "Midnight Blue" sans distractions.
 
 ### Gestion des Films
-- **Ajouter un film** : Titre, duree, description, date de sortie.
-- **Lister les films** : Vue grille moderne avec infos cles.
-- **Rechercher** : Recherche dynamique par titre.
-- **Supprimer** : Retrait d'un film de la base.
+- Catalogue complet avec affiches generees dynamiquement.
+- Ajout de nouveaux films (Titre, Duree, Date de sortie, Description).
+- Recherche instantanee.
+- Suppression avec confirmation.
 
 ### Gestion des Salles
-- **Ajouter une salle** : Nom, capacite, type (VIP, Standard, 4DX, etc.).
-- **Lister les salles** : Vue des capacites et equipements.
-- **Supprimer** : Gestion du parc de salles.
+- Vue des differentes salles (Standard, VIP, IMAX, 4DX).
+- Capacite et details techniques.
+- Gestion du parc immobilier (Ajout/Suppression).
 
-### Planification des Seances
-- **Programmer une seance** : Selection du film et de la salle.
-- **Anti-Conflit** : Le systeme empeche automatiquement de creer une seance si la salle est deja occupee par un autre film sur le meme creneau horaire (en prenant en compte la duree du film).
-- **Dashboard** : Vue d'ensemble avec statistiques en temps reel (nombre de films, salles, seances).
+### Planification (Seances)
+- Algorithme anti-conflit : Empeche de programmer deux films dans la meme salle au meme moment.
+- Vue tableau claire des horaires.
+- Statut actif des seances.
 
 ## Stack Technique
 
-- **Backend** : PHP 8 (Architecture MVC sans framework), PDO MySQL.
-- **Frontend** : JavaScript (Vanilla + Fetch API), HTML5, CSS3.
-- **Base de donnees** : MySQL.
+- Frontend : Native JS (Vanilla), TailwindCSS (CDN), HTML5.
+- Backend : PHP 8.x (Architecture MVC sans framework).
+- Base de Donnees : MySQL.
 
 ## Installation
 
-1.  Importer le script SQL `script.sql` dans votre base de donnees locale.
-2.  Configurer le fichier `backend/config/database.php` avec vos acces (Host, User, Password).
-3.  Lancer un serveur local (MAMP/WAMP/XAMPP) pointant vers le dossier du projet.
+1. Cloner le repo dans votre dossier serveur (htdocs/www).
+2. Importer script.sql dans votre base de donnees MySQL.
+3. Configurer backend/config/database.php (verifier user/password).
+4. Acceder via http://localhost/MyCinema/frontend/.
 
----
-**Auteur** : Yacine
-**Projet** : Epitech - MyCinema
+## Auteurs
+
+Developpe par Yacine (Admin Sys).
+v1.0.4 - Stable Release.

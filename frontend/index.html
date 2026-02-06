@@ -1,259 +1,341 @@
 <!DOCTYPE html>
-<html lang="fr" class="h-full bg-[#0f1117]">
+<html lang="fr" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cinema - Administration</title>
+    <title>MyCinema - Administration</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#8b5cf6',
-                        secondary: '#161922',
-                    },
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
+                    colors: {
+                        background: '#0B1120', // Très sombre, bleu nuit
+                        surface: '#151E32',    // Surface des cartes
+                        primary: '#3B82F6',    // Bleu électrique vibrant
+                        secondary: '#64748B',  // Gris bleuté pour le texte secondaire
+                    }
                 }
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer components {
-            .sidebar-link {
-                @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-slate-400 hover:bg-white/5 hover:text-white;
-            }
-            .sidebar-link.active {
-                @apply bg-primary/10 text-primary font-semibold;
-            }
-            .btn-violet {
-                @apply bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2;
-            }
-        }
-    </style>
 </head>
 
-<body class="h-full antialiased text-slate-300">
-    <div class="flex h-screen overflow-hidden">
+<body class="bg-background text-white h-screen flex overflow-hidden selection:bg-primary/30">
 
-        <aside class="w-64 bg-[#0a0c10] border-r border-white/5 flex flex-col p-6 overflow-y-auto">
-            <div class="flex items-center gap-3 mb-10 px-2">
-                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- SIDEBAR -->
+    <aside class="w-72 bg-surface border-r border-white/5 flex flex-col z-20 shadow-xl">
+        <div class="p-8 pb-4">
+            <h1 class="text-xl font-bold tracking-widest text-white uppercase flex items-center gap-3">
+                <span
+                    class="w-8 h-8 border border-primary text-primary rounded flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z">
+                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </span>
+                MC<span class="text-primary">.SYS</span>
+            </h1>
+            <p class="text-[10px] text-zinc-500 mt-2 font-mono ml-11">Système de Gestion</p>
+        </div>
+
+        <nav class="flex-1 flex flex-col justify-center px-6 space-y-6">
+            <a href="#"
+                class="sidebar-link active group flex items-center gap-5 px-6 py-5 rounded-2xl text-base font-semibold transition-all duration-300 hover:bg-white/5 text-gray-400 hover:text-white"
+                data-page="dashboard">
+                <svg class="w-6 h-6 transition-colors group-hover:text-primary" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                    </path>
+                </svg>
+                Dashboard
+            </a>
+            <a href="#"
+                class="sidebar-link group flex items-center gap-5 px-6 py-5 rounded-2xl text-base font-semibold transition-all duration-300 hover:bg-white/5 text-gray-400 hover:text-white"
+                data-page="movies">
+                <svg class="w-6 h-6 transition-colors group-hover:text-primary" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z">
+                    </path>
+                </svg>
+                Films
+            </a>
+            <a href="#"
+                class="sidebar-link group flex items-center gap-5 px-6 py-5 rounded-2xl text-base font-semibold transition-all duration-300 hover:bg-white/5 text-gray-400 hover:text-white"
+                data-page="rooms">
+                <svg class="w-6 h-6 transition-colors group-hover:text-primary" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                </svg>
+                Salles
+            </a>
+            <a href="#"
+                class="sidebar-link group flex items-center gap-5 px-6 py-5 rounded-2xl text-base font-semibold transition-all duration-300 hover:bg-white/5 text-gray-400 hover:text-white"
+                data-page="screenings">
+                <svg class="w-6 h-6 transition-colors group-hover:text-primary" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                </svg>
+                Séances
+            </a>
+        </nav>
+
+        <div class="p-4">
+            <div
+                class="bg-white/5 border border-white/5 rounded-2xl p-3 flex items-center gap-3 hover:bg-white/10 transition-colors cursor-pointer group">
+                <div
+                    class="w-10 h-10 rounded-full bg-gradient-to-tr from-slate-700 to-slate-600 flex items-center justify-center text-xs font-bold text-white ring-2 ring-transparent group-hover:ring-white/20 transition-all">
+                    YA
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-white text-sm font-bold truncate">Yacine</h4>
+                    <p class="text-slate-400 text-[10px] uppercase tracking-wider font-semibold truncate">Admin</p>
+                </div>
+                <button class="text-slate-500 hover:text-white transition-colors" title="Déconnexion">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
                         </path>
                     </svg>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col relative overflow-hidden">
+        <!-- TOPBAR -->
+        <header
+            class="h-24 sticky top-0 z-10 flex items-center justify-between px-8 bg-background/80 backdrop-blur-md border-b border-white/5">
+            <div>
+                <h2 id="view-title" class="text-xl font-bold text-white tracking-wide uppercase">Vue D'ensemble</h2>
+                <div class="flex gap-3 mt-1 text-xs font-mono text-secondary">
+                    <span>v1.0.4</span>
+                    <span class="text-white/20">|</span>
+                    <span class="text-green-500">System OK</span>
                 </div>
-                <span class="text-white font-bold text-lg">My Cinema</span>
             </div>
 
-            <nav class="flex-1 space-y-2">
-                <button class="w-full sidebar-link active" data-page="dashboard">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center gap-6">
+                <!-- Search bar (hidden by default, shown via JS logic if needed) -->
+                <div id="filter-section" class="hidden relative group">
+                    <input type="text" id="search-input" placeholder="Rechercher un film..."
+                        class="pl-11 pr-4 py-3 bg-surface border-none rounded-2xl text-sm text-white placeholder-slate-500 focus:ring-2 focus:ring-primary/50 w-80 shadow-inner transition-all hover:bg-white/5">
+                    <svg class="w-5 h-5 text-slate-500 absolute left-4 top-3.5 group-hover:text-primary transition-colors"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
-                        </path>
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    Dashboard
-                </button>
-                <button class="w-full sidebar-link" data-page="movies">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z">
-                        </path>
-                    </svg>
-                    Films
-                </button>
-                <button class="w-full sidebar-link" data-page="rooms">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-                        </path>
-                    </svg>
-                    Salles
-                </button>
-                <button class="w-full sidebar-link" data-page="screenings">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                        </path>
-                    </svg>
-                    Séances
-                </button>
-            </nav>
-
-            <div class="mt-auto pt-6 border-t border-white/5">
-                <div class="flex items-center gap-3 bg-secondary rounded-xl p-3">
-                    <div
-                        class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold text-xs">
-                        Y</div>
-                    <div class="overflow-hidden">
-                        <p class="text-xs font-bold text-white truncate">Gérant</p>
-                        <p class="text-[10px] text-slate-500 uppercase">Admin</p>
-                    </div>
                 </div>
+
+                <!-- Add Button -->
+                <button id="main-action-btn"
+                    class="hidden flex items-center gap-2 bg-primary hover:bg-blue-600 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-lg shadow-primary/25 transition-all transform hover:scale-105 active:scale-95">
+                    <span id="action-text">Ajouter</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </button>
             </div>
-        </aside>
+        </header>
 
-        <main class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-20 bg-[#0f1117] border-b border-white/5 px-8 flex items-center justify-between shadow-sm">
-                <div>
-                    <h2 id="view-title" class="text-xl font-bold text-white">Dashboard</h2>
-                </div>
-                <div>
-                    <button id="main-action-btn" class="hidden btn-violet">
-                        <span id="action-text">Ajouter</span>
-                    </button>
-                </div>
-            </header>
+        <!-- CONTENT AREA -->
+        <div class="flex-1 overflow-y-auto p-8 relative scroll-smooth" id="scroll-container">
 
-            <div class="flex-1 overflow-y-auto p-8 space-y-8 bg-[#0a0c10]/30">
-                <!-- Dashboard Statistics (Visible only on Dashboard) -->
-                <div id="stats-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-secondary border border-white/5 p-6 rounded-2xl">
-                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Films</p>
-                        <h3 class="text-3xl font-bold text-white" id="stat-movies">-</h3>
-                    </div>
-                    <div class="bg-secondary border border-white/5 p-6 rounded-2xl">
-                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Total Salles</p>
-                        <h3 class="text-3xl font-bold text-white" id="stat-rooms">-</h3>
-                    </div>
-                    <div class="bg-secondary border border-white/5 p-6 rounded-2xl">
-                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Prochaines Séances
-                        </p>
-                        <h3 class="text-3xl font-bold text-white" id="stat-screenings">-</h3>
-                    </div>
-                </div>
-
-                <!-- Main Wrapper for Content -->
-                <div class="space-y-6">
-                    <div id="filter-section"
-                        class="hidden flex flex-wrap gap-4 p-5 bg-secondary/50 backdrop-blur-md rounded-2xl border border-white/5">
-                        <div class="flex-1 relative">
-                            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none"
-                                stroke="currentColor" viewBox="0 0 24 24">
+            <!-- STATS (Dashboard only) -->
+            <div id="stats-section"
+                class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 hidden animate-in fade-in slide-in-from-top-4 duration-500">
+                <div
+                    class="bg-surface rounded-3xl p-6 border border-white/5 hover:border-primary/30 transition-all group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z">
+                                </path>
                             </svg>
-                            <input type="text" id="search-input" placeholder="Rechercher un film par titre..."
-                                class="w-full bg-[#0f1117] border border-white/5 rounded-xl pl-11 pr-4 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-all">
                         </div>
-                        <select
-                            class="bg-[#0f1117] border border-white/5 rounded-xl px-4 py-3 text-sm text-slate-400 focus:outline-none focus:border-primary/50 min-w-[150px]">
-                            <option value="">Tous les genres</option>
-                        </select>
+                        <span class="text-secondary font-medium text-sm uppercase tracking-wider">Films</span>
                     </div>
-
-                    <div id="main-content" class="min-h-[400px]">
-                        <!-- Content will be injected here -->
+                    <div class="flex items-end justify-between">
+                        <span id="stat-movies" class="text-4xl font-bold text-white">0</span>
+                        <span class="text-green-500 text-sm font-bold bg-green-500/10 px-2 py-1 rounded-lg">+
+                            Actifs</span>
                     </div>
                 </div>
 
-                <div id="pagination-section"
-                    class="hidden flex items-center justify-between pt-6 border-t border-white/5">
-                    <span class="text-xs text-slate-500">Page 1 sur 1</span>
-                    <div class="flex gap-2">
-                        <button
-                            class="px-4 py-2 bg-secondary border border-white/5 rounded-xl text-xs font-bold hover:bg-white/5 disabled:opacity-20 transition-all">Précédent</button>
-                        <button
-                            class="px-4 py-2 bg-secondary border border-white/5 rounded-xl text-xs font-bold hover:bg-white/5 transition-all">Suivant</button>
+                <div
+                    class="bg-surface rounded-3xl p-6 border border-white/5 hover:border-primary/30 transition-all group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="text-secondary font-medium text-sm uppercase tracking-wider">Salles</span>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <span id="stat-rooms" class="text-4xl font-bold text-white">0</span>
+                        <span class="text-purple-500 text-sm font-bold bg-purple-500/10 px-2 py-1 rounded-lg">Capacité
+                            Max</span>
+                    </div>
+                </div>
+
+                <div
+                    class="bg-surface rounded-3xl p-6 border border-white/5 hover:border-primary/30 transition-all group">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-secondary font-medium text-sm uppercase tracking-wider">Séances</span>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <span id="stat-screenings" class="text-4xl font-bold text-white">0</span>
+                        <span class="text-orange-500 text-sm font-bold bg-orange-500/10 px-2 py-1 rounded-lg">Cette
+                            semaine</span>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <div id="app-modal" class="hidden fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
-        <div class="bg-secondary border border-white/10 w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
-            <div class="flex justify-between items-center p-5 border-b border-white/5">
-                <h3 class="font-bold text-white text-lg" id="modal-label">Nouveau</h3>
-                <button id="close-modal-btn"
-                    class="text-slate-400 hover:text-white text-2xl font-light">&times;</button>
+            <div id="main-content" class="w-full">
             </div>
-            <div class="p-6">
-                <!-- Movie Form -->
-                <form id="movie-form" class="hidden space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Titre du film</label>
-                        <input type="text" id="movie-title" name="title" required
-                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Description</label>
-                        <textarea id="movie-desc" name="description" rows="3"
-                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50"></textarea>
+
+            <div id="pagination-section" class="hidden mt-8 flex justify-center gap-2"></div>
+        </div>
+    </main>
+
+    <div id="app-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"></div>
+
+        <!-- Modal Content -->
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div
+                class="bg-surface border border-white/10 w-full max-w-lg rounded-3xl shadow-2xl transform transition-all scale-100 p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 id="modal-label" class="text-xl font-bold text-white">Ajouter</h3>
+                    <button id="close-modal-btn" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+                        <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- MOVIE FORM -->
+                <form id="movie-form" class="hidden space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Titre du
+                            film</label>
+                        <input type="text" name="title" required
+                            class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                            placeholder="Ex: Avatar 2">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-1">Durée (min)</label>
-                            <input type="number" id="movie-duration" name="duration" required
-                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        <div class="space-y-2">
+                            <label class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Durée
+                                (min)</label>
+                            <input type="number" name="duration" required min="1"
+                                class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition-all"
+                                placeholder="120">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-1">Date de sortie</label>
-                            <input type="date" id="movie-date" name="release_date" required
-                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Sortie</label>
+                            <input type="date" name="release_date" required
+                                class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition-all">
                         </div>
                     </div>
-                    <button type="submit" class="w-full btn-violet justify-center mt-4">
-                        <span>Enregistrer le film</span>
-                    </button>
+                    <div class="space-y-2">
+                        <label
+                            class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Description</label>
+                        <textarea name="description" rows="3"
+                            class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none transition-all"
+                            placeholder="Synopsis du film..."></textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all transform hover:scale-[1.02]">Enregistrer
+                        le film</button>
                 </form>
 
-                <!-- Room Form -->
-                <form id="room-form" class="hidden space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Nom de la salle</label>
-                        <input type="text" id="room-name" name="name" required
-                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                <!-- ROOM FORM -->
+                <form id="room-form" class="hidden space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Nom de la
+                            salle</label>
+                        <input type="text" name="name" required
+                            class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none"
+                            placeholder="Ex: Salle 1">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-1">Capacité</label>
-                            <input type="number" id="room-capacity" name="capacity" required
-                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Capacité</label>
+                            <input type="number" name="capacity" required min="10"
+                                class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none"
+                                placeholder="200">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-1">Type (IMAX, 3D...)</label>
-                            <input type="text" id="room-type" name="type" required
-                                class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Type</label>
+                            <select name="type"
+                                class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none">
+                                <option value="Standard">Standard</option>
+                                <option value="VIP">VIP</option>
+                                <option value="4DX">4DX</option>
+                                <option value="IMAX">IMAX</option>
+                            </select>
                         </div>
                     </div>
-                    <button type="submit" class="w-full btn-violet justify-center mt-4">
-                        <span>Enregistrer la salle</span>
-                    </button>
+                    <button type="submit"
+                        class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all transform hover:scale-[1.02]">Créer
+                        la salle</button>
                 </form>
 
-                <!-- Screening Form -->
-                <form id="screening-form" class="hidden space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Sélectionner un film</label>
-                        <select id="screening-movie" name="movie_id" required
-                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
-                            <option value="">Chargement des films...</option>
-                        </select>
+                <!-- SCREENING FORM -->
+                <form id="screening-form" class="hidden space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Film</label>
+                        <select name="movie_id" id="screening-movie"
+                            class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none"></select>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Sélectionner une salle</label>
-                        <select id="screening-room" name="room_id" required
-                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
-                            <option value="">Chargement des salles...</option>
-                        </select>
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Salle</label>
+                        <select name="room_id" id="screening-room"
+                            class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none"></select>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Date et Heure</label>
-                        <input type="datetime-local" id="screening-date" name="date_time" required
-                            class="w-full bg-[#1a1d26] border border-white/10 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-primary/50">
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase tracking-wider text-secondary ml-1">Date et Heure
+                            de début</label>
+                        <input type="datetime-local" name="date_time" required
+                            class="w-full bg-background border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary outline-none">
                     </div>
-                    <button type="submit" class="w-full btn-violet justify-center mt-4">
-                        <span>Enregistrer la séance</span>
-                    </button>
+                    <button type="submit"
+                        class="w-full bg-primary hover:bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 transition-all transform hover:scale-[1.02]">Planifier
+                        la séance</button>
                 </form>
             </div>
         </div>
